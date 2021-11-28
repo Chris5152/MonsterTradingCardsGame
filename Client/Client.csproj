@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B43E8162-06F8-4936-94C0-62D0F3423C47}</ProjectGuid>
+    <ProjectGuid>{0A664424-8DA8-4F25-BE00-FD0BE6D3520C}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>MonsterTradingCardsGame</RootNamespace>
-    <AssemblyName>MonsterTradingCardsGame</AssemblyName>
+    <RootNamespace>Client</RootNamespace>
+    <AssemblyName>Client</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
