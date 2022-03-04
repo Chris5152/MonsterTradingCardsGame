@@ -16,7 +16,7 @@ namespace MonsterTradingCardsGame.Common.Domain
             Wins = user.Wins;
             Defeats = user.Defeats;
             PlayedGames = user.PlayedGames;
-            WinLoseRatio = Wins / Defeats;
+            WinLoseRatio = Defeats != 0 ? Wins / Defeats : 0;
         }
 
         public string Username { get; set; }

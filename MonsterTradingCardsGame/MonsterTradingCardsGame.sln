@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonsterTradingCardsGame.Com
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonsterTradingCardsGame.Console", "MonsterTradingCardsGame.Console\MonsterTradingCardsGame.Console.csproj", "{FFD089C5-1511-49E0-98D1-DAB00CBA8D0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonsterTradingCardsGame.BusinessLogic", "MonsterTradingCardsGame.BusinessLogic\MonsterTradingCardsGame.BusinessLogic.csproj", "{F7224A74-FCC9-4801-B5EA-924FA2551CC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonsterTradingCardsGame.BusinessLogic", "MonsterTradingCardsGame.BusinessLogic\MonsterTradingCardsGame.BusinessLogic.csproj", "{F7224A74-FCC9-4801-B5EA-924FA2551CC4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonsterTradingCardsGame.Test", "MonsterTradingCardsGame.Test\MonsterTradingCardsGame.Test.csproj", "{BFE82A2C-A6F0-4841-87DC-95F2B156B44A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{F7224A74-FCC9-4801-B5EA-924FA2551CC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7224A74-FCC9-4801-B5EA-924FA2551CC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7224A74-FCC9-4801-B5EA-924FA2551CC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFE82A2C-A6F0-4841-87DC-95F2B156B44A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFE82A2C-A6F0-4841-87DC-95F2B156B44A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFE82A2C-A6F0-4841-87DC-95F2B156B44A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFE82A2C-A6F0-4841-87DC-95F2B156B44A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

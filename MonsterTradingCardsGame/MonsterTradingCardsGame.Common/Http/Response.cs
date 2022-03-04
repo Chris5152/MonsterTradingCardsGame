@@ -20,14 +20,26 @@ namespace MonsterTradingCardsGame.Common
         public void Send(StreamWriter writer)
         {
             HttpStatus = HTTPSTATUSCODE_MAPPING[HttpStatusCode];
+            Version = "HTTP/1.1";
+            ServerName = "MTCG Server";
 
-            writer.WriteLine($"{Version} {HttpStatusCode.ToString()} {HttpStatus}");
-            writer.WriteLine($"Server: {ServerName}");
-            writer.WriteLine($"Current Time: {DateTime.Now}");
-            writer.WriteLine($"Content-Length: {Content.Length}");
-            writer.WriteLine("Content-Type: text/html; charset=utf-8");
-            writer.WriteLine("");
-            writer.WriteLine(Content);
+            WriteLine(writer, $"{Version} {(int)HttpStatusCode} {HttpStatus}");
+            WriteLine(writer, $"Server: {ServerName}");
+            WriteLine(writer, $"Current Time: {DateTime.Now}");
+
+            if (!String.IsNullOrEmpty(Content))
+            {
+                WriteLine(writer, $"Content-Length: {Content.Length}");
+                WriteLine(writer, "Content-Type: text/html; charset=utf-8");
+                WriteLine(writer, "");
+                WriteLine(writer, Content);
+            }
+        }
+
+        private void WriteLine(StreamWriter writer, string s)
+        {
+            Console.WriteLine(s);
+            writer.WriteLine(s);
         }
     }
 }

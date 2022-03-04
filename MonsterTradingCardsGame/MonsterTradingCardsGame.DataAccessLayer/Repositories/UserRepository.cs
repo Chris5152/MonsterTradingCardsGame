@@ -43,10 +43,10 @@ namespace MonsterTradingCardsGame.DataAccessLayer.Repositories
                         cmd.Parameters.AddWithValue("Wins", user.Wins);
                         cmd.Parameters.AddWithValue("Defeats", user.Defeats);
                         cmd.Parameters.AddWithValue("PlayedGames", user.PlayedGames);
-                        cmd.Parameters.AddWithValue("AuthToken", user.AuthToken);
-                        cmd.Parameters.AddWithValue("UserRole", user.UserRole);
-                        cmd.Parameters.AddWithValue("Bio", user.Bio);
-                        cmd.Parameters.AddWithValue("Image", user.Image);
+                        cmd.Parameters.AddWithValue("AuthToken", user.AuthToken ?? "");
+                        cmd.Parameters.AddWithValue("UserRole", (int)user.UserRole);
+                        cmd.Parameters.AddWithValue("Bio", user.Bio ?? "");
+                        cmd.Parameters.AddWithValue("Image", user.Image ?? "");
 
                         return cmd.ExecuteNonQuery() != -1;
                     }
@@ -74,14 +74,14 @@ namespace MonsterTradingCardsGame.DataAccessLayer.Repositories
 
                             var user = new User()
                             {
-                                Id = (reader["Id"] as int?).Value,
+                                Id = (reader["Id"] as int?).GetValueOrDefault(),
                                 Username = reader["Username"] as string,
                                 Password = reader["Password"] as string,
-                                Coins = (reader["Coins"] as int?).Value,
-                                ELO = (reader["ELO"] as int?).Value,
-                                Wins = (reader["Wins"] as int?).Value,
-                                Defeats = (reader["Defeats"] as int?).Value,
-                                PlayedGames = (reader["PlayedGames"] as int?).Value,
+                                Coins = (reader["Coins"] as int?).GetValueOrDefault(),
+                                ELO = (reader["ELO"] as int?).GetValueOrDefault(),
+                                Wins = (reader["Wins"] as int?).GetValueOrDefault(),
+                                Defeats = (reader["Defeats"] as int?).GetValueOrDefault(),
+                                PlayedGames = (reader["PlayedGames"] as int?).GetValueOrDefault(),
                                 AuthToken = reader["AuthToken"] as string
                             };
 
@@ -109,10 +109,10 @@ namespace MonsterTradingCardsGame.DataAccessLayer.Repositories
                     cmd.Parameters.AddWithValue("Wins", user.Wins);
                     cmd.Parameters.AddWithValue("Defeats", user.Defeats);
                     cmd.Parameters.AddWithValue("PlayedGames", user.PlayedGames);
-                    cmd.Parameters.AddWithValue("AuthToken", user.AuthToken);
-                    cmd.Parameters.AddWithValue("UserRole", user.UserRole);
-                    cmd.Parameters.AddWithValue("Bio", user.Bio);
-                    cmd.Parameters.AddWithValue("Image", user.Image);
+                    cmd.Parameters.AddWithValue("AuthToken", user.AuthToken ?? "");
+                    cmd.Parameters.AddWithValue("UserRole", (int)user.UserRole);
+                    cmd.Parameters.AddWithValue("Bio", user.Bio ?? "");
+                    cmd.Parameters.AddWithValue("Image", user.Image ?? "");
 
                     return cmd.ExecuteNonQuery() != -1;
                 }
@@ -121,13 +121,13 @@ namespace MonsterTradingCardsGame.DataAccessLayer.Repositories
 
         public bool DeleteUser(User user)
         {
-            string query = $"DELETE FROM \"User\" WHERE Id = @Id";
+            string query = $"DELETE FROM \"User\" WHERE Username = @Username";
 
             using (var con = DBConnection.Connect())
             {
                 using (var cmd = new NpgsqlCommand(query, con))
                 {
-                    cmd.Parameters.AddWithValue("Id", user.Id);
+                    cmd.Parameters.AddWithValue("Username", user.Username);
 
                     return cmd.ExecuteNonQuery() != -1;
                 }
@@ -142,7 +142,7 @@ namespace MonsterTradingCardsGame.DataAccessLayer.Repositories
             {
                 using (var cmd = new NpgsqlCommand(query, con))
                 {
-                    cmd.Parameters.AddWithValue("AuthToken", authToken);
+                    cmd.Parameters.AddWithValue("AuthToken", authToken ?? "");
 
                     using (var reader = cmd.ExecuteReader())
                     {
@@ -152,14 +152,14 @@ namespace MonsterTradingCardsGame.DataAccessLayer.Repositories
 
                             var user = new User()
                             {
-                                Id = (reader["Id"] as int?).Value,
+                                Id = (reader["Id"] as int?).GetValueOrDefault(),
                                 Username = reader["Username"] as string,
                                 Password = reader["Password"] as string,
-                                Coins = (reader["Coins"] as int?).Value,
-                                ELO = (reader["ELO"] as int?).Value,
-                                Wins = (reader["Wins"] as int?).Value,
-                                Defeats = (reader["Defeats"] as int?).Value,
-                                PlayedGames = (reader["PlayedGames"] as int?).Value,
+                                Coins = (reader["Coins"] as int?).GetValueOrDefault(),
+                                ELO = (reader["ELO"] as int?).GetValueOrDefault(),
+                                Wins = (reader["Wins"] as int?).GetValueOrDefault(),
+                                Defeats = (reader["Defeats"] as int?).GetValueOrDefault(),
+                                PlayedGames = (reader["PlayedGames"] as int?).GetValueOrDefault(),
                                 AuthToken = reader["AuthToken"] as string
                             };
 
@@ -172,7 +172,7 @@ namespace MonsterTradingCardsGame.DataAccessLayer.Repositories
             }
         }
 
-        public ICollection<UserScore> GetAllELO()
+        public IEnumerable<UserScore> GetAllELO()
         {
             string query = $"SELECT Username, ELO FROM \"User\"";
 
@@ -189,12 +189,12 @@ namespace MonsterTradingCardsGame.DataAccessLayer.Repositories
                             var userScore = new UserScore()
                             {
                                 Username = reader["Username"] as string,
-                                ELO = (reader["ELO"] as int?).Value
+                                ELO = (reader["ELO"] as int?).GetValueOrDefault()
                             };
                             userScores.Add(userScore);
                         }
 
-                        return (ICollection<UserScore>)userScores.OrderByDescending(x => x.ELO);
+                        return userScores.OrderByDescending(x => x.ELO);
                     }
                 }
             }

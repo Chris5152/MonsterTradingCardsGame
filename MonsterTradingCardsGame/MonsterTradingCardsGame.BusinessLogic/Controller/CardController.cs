@@ -20,7 +20,7 @@ namespace MonsterTradingCardsGame.BusinessLogic
         public bool InsertPackage(ICollection<Card> cards)
         {
             var result = true;
-            int packageId;
+            var packageId = cardRepository.CreatePackage();
 
             foreach(var card in cards)
             {
@@ -29,11 +29,20 @@ namespace MonsterTradingCardsGame.BusinessLogic
                     cardRepository.InsertCard(card);
                 }
 
-                packageId = cardRepository.CreatePackage();
                 result = cardRepository.AddCardToPackage(card, packageId) && result;
             }
 
             return result;
+        }
+
+        public bool InsertCard(Card card)
+        {
+            return cardRepository.InsertCard(card);
+        }
+
+        public bool DeleteCard(Card card)
+        {
+            return cardRepository.DeleteCard(card);
         }
 
         public Card GetCardById(string cardId)
@@ -47,15 +56,15 @@ namespace MonsterTradingCardsGame.BusinessLogic
             var packages = cardRepository.GetAllPackages();
 
             var rnd = new Random();
-            var index = rnd.Next(0, packages.Count - 1);
+            var index = rnd.Next(0, packages.Count);
 
             var packageId = packages.ElementAt(index);
 
-            var cards = cardRepository.GetCardsFromPackage(packageId);
+            var cardIds = cardRepository.GetCardsFromPackage(packageId);
 
-            foreach(var card in cards)
+            foreach(var cardId in cardIds)
             {
-                result = cardRepository.AddCardToUser(userId, card.Id) && result;
+                result = cardRepository.AddCardToUser(userId, cardId) && result;
             }
 
             return result;

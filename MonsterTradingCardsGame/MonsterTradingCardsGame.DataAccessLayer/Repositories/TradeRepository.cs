@@ -12,7 +12,7 @@ namespace MonsterTradingCardsGame.DataAccessLayer.Repositories
     {
         public ICollection<Trade> GetAllTrades()
         {
-            string query = $"SELECT * FROM Trade";
+            string query = $"SELECT * FROM \"Trade\"";
 
             using (var con = DBConnection.Connect())
             {
@@ -27,10 +27,10 @@ namespace MonsterTradingCardsGame.DataAccessLayer.Repositories
                             var trade = new Trade()
                             {
                                 Id = reader["Id"] as string,
-                                UserIdTradeCreator = (reader["UserIdTradeCreator"] as int?).Value,
+                                UserIdTradeCreator = (reader["UserIdTradeCreator"] as int?).GetValueOrDefault(),
                                 CardToTrade = reader["CardToTrade"] as string,
                                 Type = reader["WantedType"] as string,
-                                MinimumDamage = (reader["WantedMinimumDamage"] as int?).Value
+                                MinimumDamage = (reader["WantedMinimumDamage"] as decimal?).GetValueOrDefault()
                             };
                             trades.Add(trade);
                         }
@@ -43,13 +43,13 @@ namespace MonsterTradingCardsGame.DataAccessLayer.Repositories
 
         public Trade GetTrade(string id)
         {
-            string query = $"SELECT * FROM Trade WHERE Id = @Id LIMIT 1";
+            string query = $"SELECT * FROM \"Trade\" WHERE Id = @Id LIMIT 1";
 
             using (var con = DBConnection.Connect())
             {
                 using (var cmd = new NpgsqlCommand(query, con))
                 {
-                    cmd.Parameters.AddWithValue("Id", id);
+                    cmd.Parameters.AddWithValue("Id", id ?? "");
 
                     using (var reader = cmd.ExecuteReader())
                     {
@@ -60,10 +60,10 @@ namespace MonsterTradingCardsGame.DataAccessLayer.Repositories
                             var trade = new Trade()
                             {
                                 Id = reader["Id"] as string,
-                                UserIdTradeCreator = (reader["Name"] as int?).Value,
+                                UserIdTradeCreator = (reader["UserIdTradeCreator"] as int?).GetValueOrDefault(),
                                 CardToTrade = reader["CardToTrade"] as string,
                                 Type = reader["WantedType"] as string,
-                                MinimumDamage = (reader["WantedMinimumDamage"] as int?).Value
+                                MinimumDamage = (reader["WantedMinimumDamage"] as decimal?).GetValueOrDefault()
                             };
 
                             return trade;
@@ -81,17 +81,17 @@ namespace MonsterTradingCardsGame.DataAccessLayer.Repositories
 
             if(existingTrade == null)
             {
-                string query = $"INSERT INTO Trade (Id, UserIdTradeCreator, CardToTrade, WantedType, WantedMinimumDamage) VALUES (@Id, @UserIdTradeCreator, @CardToTrade, @WantedType, @WantedMinimumDamage)";
+                string query = $"INSERT INTO \"Trade\" (Id, UserIdTradeCreator, CardToTrade, WantedType, WantedMinimumDamage) VALUES (@Id, @UserIdTradeCreator, @CardToTrade, @WantedType, @WantedMinimumDamage)";
 
                 using (var con = DBConnection.Connect())
                 {
                     using (var cmd = new NpgsqlCommand(query, con))
                     {
-                        cmd.Parameters.AddWithValue("Id", trade.Id);
+                        cmd.Parameters.AddWithValue("Id", trade.Id ?? "");
                         cmd.Parameters.AddWithValue("UserIdTradeCreator", trade.UserIdTradeCreator);
-                        cmd.Parameters.AddWithValue("CardToTrade", trade.CardToTrade);
-                        cmd.Parameters.AddWithValue("WantedType", trade.Type);
-                        cmd.Parameters.AddWithValue("WantedMinimumDamage", trade.MinimumDamage);
+                        cmd.Parameters.AddWithValue("CardToTrade", trade.CardToTrade ?? "");
+                        cmd.Parameters.AddWithValue("WantedType", trade.Type ?? "");
+                        cmd.Parameters.AddWithValue("WantedMinimumDamage", trade.MinimumDamage ?? 0);
 
                         return cmd.ExecuteNonQuery() != -1;
                     }
@@ -103,13 +103,13 @@ namespace MonsterTradingCardsGame.DataAccessLayer.Repositories
 
         public bool DeleteTrade(Trade trade)
         {
-            string query = $"DELETE FROM Trade WHERE Id = @Id";
+            string query = $"DELETE FROM \"Trade\" WHERE Id = @Id";
 
             using (var con = DBConnection.Connect())
             {
                 using (var cmd = new NpgsqlCommand(query, con))
                 {
-                    cmd.Parameters.AddWithValue("Id", trade.Id);
+                    cmd.Parameters.AddWithValue("Id", trade.Id ?? "");
 
                     return cmd.ExecuteNonQuery() != -1;
                 }

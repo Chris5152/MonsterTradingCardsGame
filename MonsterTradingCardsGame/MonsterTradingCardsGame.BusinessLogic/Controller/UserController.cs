@@ -47,9 +47,7 @@ namespace MonsterTradingCardsGame.BusinessLogic
             string authToken = String.Format("Basic {0}-mtcgToken", savedUser.Username);
             savedUser.AuthToken = authToken;
 
-            userRepository.UpdateUser(savedUser);
-
-            return true;
+            return userRepository.UpdateUser(savedUser);
         }
 
         public User GetUser(string username, string authToken)
@@ -68,16 +66,16 @@ namespace MonsterTradingCardsGame.BusinessLogic
             {
                 var existingUser = userRepository.GetUser(username);
 
-                existingUser.Username = string.IsNullOrEmpty(newUser.Username) ? newUser.Username : existingUser.Username;
-                existingUser.Coins = (newUser.Coins != 0) ? newUser.Coins : existingUser.Coins;
-                existingUser.ELO = (newUser.ELO != 0) ? newUser.ELO : existingUser.ELO;
-                existingUser.Wins = (newUser.Wins != 0) ? newUser.Wins : existingUser.Wins;
-                existingUser.Defeats = (newUser.Defeats != 0) ? newUser.Defeats : existingUser.Defeats;
-                existingUser.PlayedGames = (newUser.PlayedGames != 0) ? newUser.PlayedGames : existingUser.PlayedGames;
+                existingUser.Username = !string.IsNullOrEmpty(newUser.Username) ? newUser.Username : existingUser.Username;
+                existingUser.Coins = newUser.Coins;
+                existingUser.ELO = newUser.ELO;
+                existingUser.Wins = newUser.Wins;
+                existingUser.Defeats = newUser.Defeats;
+                existingUser.PlayedGames = newUser.PlayedGames;
                 existingUser.AuthToken = newUser.AuthToken ?? existingUser.AuthToken;
-                existingUser.UserRole = (newUser.UserRole != 0) ? newUser.UserRole : existingUser.UserRole;
-                existingUser.Bio = string.IsNullOrEmpty(newUser.Bio) ? newUser.Bio : existingUser.Bio;
-                existingUser.Image = string.IsNullOrEmpty(newUser.Image) ? newUser.Image : existingUser.Image;
+                existingUser.UserRole = newUser.UserRole;
+                existingUser.Bio = !string.IsNullOrEmpty(newUser.Bio) ? newUser.Bio : existingUser.Bio;
+                existingUser.Image = !string.IsNullOrEmpty(newUser.Image) ? newUser.Image : existingUser.Image;
 
                 return userRepository.UpdateUser(existingUser);
             }
@@ -90,14 +88,19 @@ namespace MonsterTradingCardsGame.BusinessLogic
             return userRepository.GetUserByToken(authToken);
         }
 
-        public ICollection<UserScore> GetAllELO()
+        public IEnumerable<UserScore> GetAllELO()
         {
             return userRepository.GetAllELO();
         }
 
+        public bool DeleteUser(User user)
+        {
+            return userRepository.DeleteUser(user);
+        }
+
         private bool validateUserToken(string username, string authToken)
         {
-            return userRepository.GetUser(username).AuthToken == authToken;
+            return userRepository.GetUser(username)?.AuthToken == (authToken ?? "");
         }
     }
 }
