@@ -39,12 +39,12 @@ namespace MonsterTradingCardsGame.BusinessLogic
                 if(checkIfLoseDueSpecialties(cardP1, cardP2))
                 {
                     moveCard(playerTwo.Deck, playerOne.Deck, cardP1);
-                    createSpecialtiesLogMessage(playerTwo, cardP2, playerOne, cardP1);
+                    createSpecialtiesLogMessage(cardP2.Name, cardP1, cardP2);
                 }
                 else if(checkIfLoseDueSpecialties(cardP2, cardP1))
                 {
                     moveCard(playerOne.Deck, playerTwo.Deck, cardP2);
-                    createSpecialtiesLogMessage(playerOne, cardP1, playerTwo, cardP2);
+                    createSpecialtiesLogMessage(cardP1.Name, cardP1, cardP2);
                 }
                 else
                 {
@@ -60,7 +60,8 @@ namespace MonsterTradingCardsGame.BusinessLogic
 
                 ++roundCount;
 
-                checkWinner();
+                checkWinner(roundCount);
+                //Console.WriteLine("--- " + playerOne.Deck.Count + " /// " + playerTwo.Deck.Count + " ---");
             }
 
             return log.ToString();
@@ -110,26 +111,30 @@ namespace MonsterTradingCardsGame.BusinessLogic
             }
         }
 
-        private void createSpecialtiesLogMessage(User playerWon, Card cardWon, User playerLost, Card cardLost)
+        private void createSpecialtiesLogMessage(string cardWon, Card cardP1, Card cardP2)
         {
-            log.Append(String.Format("{0}: {1} ({2} Damage) vs {3}: {4} ({5} Damage) => {6} wins due to specialty\n", playerWon.Username, cardWon.Name, cardWon.Damage, playerLost.Username, cardLost.Name, cardLost.Damage, cardWon.Name));
+            log.Append(String.Format("{0}: {1} ({2} Damage) vs {3}: {4} ({5} Damage) => {6} wins due to specialty\n", playerOne.Username, cardP1.Name, cardP1.Damage, playerTwo.Username, cardP2.Name, cardP2.Damage, cardWon));
         }
 
-        public void checkWinner()
+        public void checkWinner(int roundCount)
         {
             if(playerOne.Deck.Count == 0)
             {
-                log.Append(String.Format("{0} is the winner!", playerTwo.Username));
+                log.Append(String.Format("{0} is the winner!\n", playerTwo.Username));
                 updateStackOfWinner(playerTwo);
                 updateStackOfLoser(playerOne, initialDeckP1);
                 updateStatsWinner(playerTwo);
             }
             else if(playerTwo.Deck.Count == 0)
             {
-                log.Append(String.Format("{0} is the winner!", playerOne.Username));
+                log.Append(String.Format("{0} is the winner!\n", playerOne.Username));
                 updateStackOfWinner(playerOne);
                 updateStackOfLoser(playerTwo, initialDeckP2);
                 updateStatsLoser(playerOne);
+            }
+            else if(roundCount >= 100)
+            {
+                log.Append("It is a draw!\n");
             }
         }
 

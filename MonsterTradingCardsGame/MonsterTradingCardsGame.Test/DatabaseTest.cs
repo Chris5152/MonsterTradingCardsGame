@@ -9,25 +9,22 @@ namespace MonsterTradingCardsGame.Test
     {
         private CardController cC;
         private UserController uC;
-        private TradeController tC;
 
         private Card card;
         private User user;
-        private Trade trade;
 
         [SetUp]
         public void Setup()
         {
             cC = new CardController();
             uC = new UserController();
-            tC = new TradeController();
 
             card = new Card()
             {
                 Id = "test",
                 Name = "test",
                 Type = ConstantsEnums.CardTypes.Monster,
-                Element = ConstantsEnums.Elements.Fire,
+                Element = ConstantsEnums.Elements.Water,
                 Damage = 10
             };
 
@@ -42,14 +39,9 @@ namespace MonsterTradingCardsGame.Test
                 Defeats = 10,
                 PlayedGames = 120,
                 AuthToken = "test",
-                UserRole = ConstantsEnums.UserRoles.Admin,
+                UserRole = ConstantsEnums.UserRoles.User,
                 Bio = "test",
                 Image = "test"
-            };
-
-            trade = new Trade()
-            {
-
             };
         }
 
@@ -69,7 +61,7 @@ namespace MonsterTradingCardsGame.Test
             var result = uC.GetUser(user.Username, user.AuthToken);
             uC.DeleteUser(user);
 
-            Assert.IsTrue(result == user);
+            Assert.IsTrue(result.Username == user.Username && result.ELO == user.ELO && result.UserRole == user.UserRole);
         }
 
         [Test]
@@ -79,7 +71,7 @@ namespace MonsterTradingCardsGame.Test
             var result = uC.GetUserByToken(user.AuthToken);
             uC.DeleteUser(user);
 
-            Assert.IsTrue(result == user);
+            Assert.IsTrue(result.Username == user.Username && result.ELO == user.ELO && result.UserRole == user.UserRole);
         }
 
         [Test]
@@ -116,6 +108,16 @@ namespace MonsterTradingCardsGame.Test
             var result = cC.DeleteCard(card);
 
             Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void TestGetCard()
+        {
+            cC.InsertCard(card);
+            var result = cC.GetCardById(card.Id);
+            cC.DeleteCard(card);
+
+            Assert.IsTrue(result.Id == card.Id && result.Type == card.Type && result.Damage == card.Damage);
         }
     }
 }

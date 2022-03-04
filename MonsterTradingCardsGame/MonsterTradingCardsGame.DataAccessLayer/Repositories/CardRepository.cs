@@ -57,8 +57,8 @@ namespace MonsterTradingCardsGame.DataAccessLayer.Repositories
                             {
                                 Id = reader["Id"] as string,
                                 Name = reader["Name"] as string,
-                                Type = (reader["Type"] as CardTypes?).GetValueOrDefault(),
-                                Element = (reader["Element"] as Elements?).GetValueOrDefault(),
+                                Type = (CardTypes)(reader["Type"] as int?).GetValueOrDefault(),
+                                Element = (Elements)(reader["Element"] as int?).GetValueOrDefault(),
                                 Damage = (reader["Damage"] as decimal?).GetValueOrDefault()
                             };
 
@@ -225,8 +225,8 @@ namespace MonsterTradingCardsGame.DataAccessLayer.Repositories
                             {
                                 Id = reader["Id"] as string,
                                 Name = reader["Name"] as string,
-                                Type = (reader["Type"] as CardTypes?).GetValueOrDefault(),
-                                Element = (reader["Element"] as Elements?).GetValueOrDefault(),
+                                Type = (CardTypes)(reader["Type"] as int?).GetValueOrDefault(),
+                                Element = (Elements)(reader["Element"] as int?).GetValueOrDefault(),
                                 Damage = (reader["Damage"] as decimal?).GetValueOrDefault(),
                             };
 
@@ -259,8 +259,8 @@ namespace MonsterTradingCardsGame.DataAccessLayer.Repositories
                             {
                                 Id = reader["Id"] as string,
                                 Name = reader["Name"] as string,
-                                Type = (reader["Type"] as CardTypes?).GetValueOrDefault(),
-                                Element = (reader["Element"] as Elements?).GetValueOrDefault(),
+                                Type = (CardTypes)(reader["Type"] as int?).GetValueOrDefault(),
+                                Element = (Elements)(reader["Element"] as int?).GetValueOrDefault(),
                                 Damage = (reader["Damage"] as decimal?).GetValueOrDefault()
                             };
 

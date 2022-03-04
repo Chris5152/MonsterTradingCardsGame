@@ -488,7 +488,7 @@ namespace MonsterTradingCardsGame.Server
                     await Task.Run(() => PlayerOne = user);
                     await Task.Run(() => PlayerOne.Deck = deck);
                     await Task.Run(() => PlayerOne.Stack = stack);
-                    return "Waiting for second player...";
+                    return "Waiting for second player...\n";
                 }
                 else if(PlayerTwo == null)
                 {

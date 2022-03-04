@@ -7,6 +7,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using static MonsterTradingCardsGame.Common.ConstantsEnums;
 
 namespace MonsterTradingCardsGame.DataAccessLayer.Repositories
 {
@@ -82,7 +83,10 @@ namespace MonsterTradingCardsGame.DataAccessLayer.Repositories
                                 Wins = (reader["Wins"] as int?).GetValueOrDefault(),
                                 Defeats = (reader["Defeats"] as int?).GetValueOrDefault(),
                                 PlayedGames = (reader["PlayedGames"] as int?).GetValueOrDefault(),
-                                AuthToken = reader["AuthToken"] as string
+                                AuthToken = reader["AuthToken"] as string,
+                                UserRole = (UserRoles)(reader["UserRole"] as int?).GetValueOrDefault(),
+                                Bio = reader["Bio"] as string,
+                                Image = reader["Image"] as string
                             };
 
                             return user;
@@ -160,7 +164,10 @@ namespace MonsterTradingCardsGame.DataAccessLayer.Repositories
                                 Wins = (reader["Wins"] as int?).GetValueOrDefault(),
                                 Defeats = (reader["Defeats"] as int?).GetValueOrDefault(),
                                 PlayedGames = (reader["PlayedGames"] as int?).GetValueOrDefault(),
-                                AuthToken = reader["AuthToken"] as string
+                                AuthToken = reader["AuthToken"] as string,
+                                UserRole = (UserRoles)(reader["UserRole"] as int?).GetValueOrDefault(),
+                                Bio = reader["Bio"] as string,
+                                Image = reader["Image"] as string
                             };
 
                             return user;
